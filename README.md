@@ -181,3 +181,32 @@ Add-AdGroupMember -Identity Delivery Polevikova
 Add-AdGroupMember -Identity Frontend Morgushko
 Add-AdGroupMember -Identity Backend Radjkovith
 </pre>
+<br>
+
+<ul>
+    <li><strong>Должны быть настроены следующие GPO:</strong></li>
+    <ul>
+        <li>отключить OneDrive ( имя политики onedrive);</li>
+        <li>Запретить чтение информации со съёмных носителей ( имя политики removable media);</li>
+        <li>Отключить использование камер (имя политики camera);</li>
+        <li>Запретить любые изменения персонализации рабочего стола ( имя политики desktop);</li>
+    </ul>
+</ul>
+<pre>
+New-GPO -Name "onedrive" | New-GPLink -Target "DC=Oaklet,DC=org"
+Конфигурация компьютера -> Политики -> Административные шаблоны -> Компоненты Windows -> OneDrive -> Запретить использование OneDrive для хранения файлов (включить)
+<br>
+New-GPO -Name "removable media" | New-GPLink -Target "DC=Oaklet,DC=org"
+Конфигурация компьютера -> Политики -> Административные шаблоны -> Система -> Доступ к съемным запоминающим устройствам -> Съемные запоминающие устройства всех классов: Запретить любой доступ (включить)
+Конфигурация пользователя -> Политики -> Административные шаблоны -> Система -> Доступ к съемным запоминающим устройствам -> Съемные запоминающие устройства всех классов: Запретить любой доступ (включить)
+<br>
+New-GPO -Name "camera" | New-GPLink -Target "DC=Oaklet,DC=org"
+Конфигурация компьютера -> Политики -> Административные шаблоны -> Компоненты Windows -> Камера -> Разрешить использование камер (Отключить)
+<br>
+New-GPO -Name "desktop" | New-GPLink -Target "DC=Oaklet,DC=org"
+Конфигурация пользователя -> Политики -> Административные шаблоны -> Панель управления -> Персонализация
+<br>
+powershell
+gpupdate /force
+</pre>
+
