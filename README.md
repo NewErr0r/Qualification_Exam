@@ -73,7 +73,7 @@ DNS-серверы: 172.20.0.100 77.88.8.8
 </pre>
 
 <ul>
-    <li><APP-V (name, addressing, nat)</strong></li>
+    <li>APP-V (name, addressing, nat)</strong></li>
 </ul>
 <br>
 <pre>
