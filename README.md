@@ -156,5 +156,28 @@ ip link set up enp0s3
 <br>
 
 <pre>
+New-ADOrganizationalUnit -Name ADM
+New-ADOrganizationalUnit -Name Sales
+New-ADOrganizationalUnit -Name Delivery
+New-ADOrganizationalUnit -Name Development
 
+New-ADGroup "ADM" -path 'OU=ADM,DC=Oaklet,DC=org' -GroupScope Global -PassThru –Verbose
+New-ADGroup "Sales" -path 'OU=Sales,DC=Oaklet,DC=org' -GroupScope Global -PassThru –Verbose
+New-ADGroup "Delivery" -path 'OU=Delivery,DC=Oaklet,DC=org' -GroupScope Global -PassThru –Verbose
+New-ADGroup "Frontend" -path 'OU=Development,DC=Oaklet,DC=org' -GroupScope Global -PassThru –Verbose
+New-ADGroup "Backend" -path 'OU=Development,DC=Oaklet,DC=org' -GroupScope Global -PassThru –Verbose
+
+New-ADUser -Name "Director" -UserPrincipalName "Director@Oaklet.org" -Path "OU=ADM,DC=Oaklet,DC=org" -AccountPassword(ConvertTo-SecureString P@ssw0rd -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "Secretary" -UserPrincipalName "Secretary@Oaklet.org" -Path "OU=ADM,DC=Oaklet,DC=org" -AccountPassword(ConvertTo-SecureString P@ssw0rd -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "Alice" -UserPrincipalName "Alice@Oaklet.org" -Path "OU=Sales,DC=Oaklet,DC=org" -AccountPassword(ConvertTo-SecureString P@ssw0rd -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "Bob" -UserPrincipalName "Bob@Oaklet.org" -Path "OU=Sales,DC=Oaklet,DC=org" -AccountPassword(ConvertTo-SecureString P@ssw0rd -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "Polevikova" -UserPrincipalName "Polevikova@Oaklet.org" -Path "OU=Delivery,DC=Oaklet,DC=org" -AccountPassword(ConvertTo-SecureString P@ssw0rd -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "Morgushko" -UserPrincipalName "Morgushko@Oaklet.org" -Path "OU=Development,DC=Oaklet,DC=org" -AccountPassword(ConvertTo-SecureString P@ssw0rd -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "Radjkovith" -UserPrincipalName "Radjkovith@Oaklet.org" -Path "OU=Development,DC=Oaklet,DC=org" -AccountPassword(ConvertTo-SecureString P@ssw0rd -AsPlainText -Force) -Enabled $true
+
+Add-AdGroupMember -Identity ADM Director, Secretary
+Add-AdGroupMember -Identity Sales Alice, Bob
+Add-AdGroupMember -Identity Delivery Polevikova
+Add-AdGroupMember -Identity Frontend Morgushko
+Add-AdGroupMember -Identity Backend Radjkovith
 </pre>
