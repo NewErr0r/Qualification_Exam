@@ -21,7 +21,7 @@
 
 <h1>Базовая конфигурация (подготовительные настройки):</h1>
 <ul>
-    <li><strong>FW (name. nameserver, gateway, addressing, nat, dhcp-relay)</strong></li>
+    <li><strong>FW (name, nameserver, gateway, addressing, nat, dhcp-relay)</strong></li>
 </ul>
 <br>
 <pre>
@@ -97,6 +97,53 @@ systemctl enable --now firewalld
 firewall-cmd --permanent --zone=trusted --add-interface=enp0s8
 firewall-cmd --permanent --add-masquerade
 firewall-cmd --reload
+
+echo net.ipv4.ip_forward=1 >> /etc/sysctl.conf
+sysctl -p
+</pre>
+
+<ul>
+    <li>APP-L (name, addressing)</strong></li>
+</ul>
+<br>
+<pre>
+hostnamectl set-hostname APP-L
+echo 10.116.0.20/14 >> /etc/net/ifaces/enp0s3/ipv4address
+echo default via 10.116.0.10 > /etc/net/ifaces/enp0s3/ipv4route
+systemctl restart network
+ip link set up enp0s3
+echo nameserver 77.88.8.8 > /etc/resolv.conf
+</pre>
+
+<ul>
+    <li>APP-R (name, addressing)</strong></li>
+</ul>
+<br>
+<pre>
+hostnamectl set-hostname APP-R
+echo 10.116.0.30/14 >> /etc/net/ifaces/enp0s3/ipv4address
+echo default via 10.116.0.10 > /etc/net/ifaces/enp0s3/ipv4route
+systemctl restart network
+ip link set up enp0s3
+echo nameserver 77.88.8.8 > /etc/resolv.conf
+</pre>
+
+<ul>
+    <li>CLI-R (name, addressing)</strong></li>
+</ul>
+<br>
+<pre>
+su -
+hostnamectl set-hostname CLI-R
+reboot
+
+ЦУС -> Сеть -> Ethernet-интерфейсы
+IP: 200.100.100.10/24
+Шлюз по умолчанию: 200.100.100.254
+DNS-серверы: 77.88.8.8 172.20.0.100 
+
+su - 
+ip link set up enp0s3
 </pre>
 
 <h1>Элементы доменной инфраструктуры:</h1>
@@ -107,3 +154,7 @@ firewall-cmd --reload
 
 ![Image alt](https://github.com/NewErr0r/Qualification_Exam/blob/main/departament.png)
 <br>
+
+<pre>
+
+</pre>
