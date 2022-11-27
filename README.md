@@ -90,19 +90,18 @@ hostnamectl set-hostname SRV.Oaklet.org
 reboot
 </pre>
 <pre>
-su -
-apt-get update
-apt-get install -y task-auth-ad-sssd
-system-auth write ad Oaklet.org SRV Oaklet 'Администратор' 'P@ssw0rd'
-reboot
-</pre>
-
-<pre>
 ЦУС -> Сеть -> Ethernet-интерфейсы
 IP: 172.20.3.100/23
 Шлюз по умолчанию: 172.20.2.1
 DNS-серверы: 172.20.0.100 77.88.8.8
 Домены поиска: Oaklet.org
+</pre>
+<pre>
+su -
+apt-get update
+apt-get install -y task-auth-ad-sssd
+system-auth write ad Oaklet.org SRV Oaklet 'Администратор' 'P@ssw0rd'
+reboot
 </pre>
 
 <ul>
@@ -362,6 +361,10 @@ apt-get update
 apt-get install -y task-auth-ad-sssd
 system-auth write ad Oaklet.org CLI-L Oaklet 'Администратор' 'P@ssw0rd'
 reboot
+</pre>
+
+<pre>
+
 </pre>
 
 <ul>
