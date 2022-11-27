@@ -57,7 +57,7 @@ Add-DnsServerPrimaryZone -NetworkId "172.20.3.0/24" -ReplicationScope Domain
 Add-DnsServerResourceRecordPtr -ZoneName 0.20.172.in-addr.arpa -Name 100 -PtrDomainName dc.Oaklet.org
 Add-DnsServerResourceRecordA -Name "FS" -ZoneName "Oaklet.org" -AllowUpdateAny -IPv4Address "172.20.0.200" -CreatePtr
 Add-DnsServerResourceRecordA -Name "SRV" -ZoneName "Oaklet.org" -AllowUpdateAny -IPv4Address "172.20.3.100" -CreatePtr
-
+<br>
 А так же для дальнейшей работы приложения и веб-сайта по доменным именам:
 Add-DnsServerResourceRecordCName -Name "www" -HostNameAlias "SRV.Oaklet.org" -ZoneName "Oaklet.org"
 Add-DnsServerPrimaryZone -Name first -ReplicationScope "Forest" –PassThru
@@ -246,6 +246,17 @@ Add-DhcpServerv4ExclusionRange -ScopeID 172.20.2.0 -StartRange 172.20.2.1 -EndRa
 Add-DhcpServerv4ExclusionRange -ScopeID 172.20.2.0 -StartRange 172.20.3.100 -EndRange 172.20.3.100
 Set-DhcpServerv4Scope -ScopeID 172.20.2.0 -State Active
 </pre>
+
+<ul>
+    <li><strong>Организуйте DHCP сервер на базе SRV</strong></li>
+    <ul>
+        <li>Используйте подсеть Clients учётом существующей инфраструктуры в таблице адресации;</li>
+        <li>Клиенты CLI-L и CLI-W получают адрес и все необходимые сетевые параметры по DHCP, обеспечивая связность с сетью Интернет и подсетью Servers;</li>
+    </ul>
+</ul>
+<p>Через веб-интерфейс "https://localhost:8080": </p>
+
+![Image alt](https://github.com/NewErr0r/Qualification_Exam/blob/main/dhcp-web.png)
 
 <ul>
     <li><strong>Организуйте общий каталог для ВМ CLI-W и CLI-L на базе FS:</strong></li>
