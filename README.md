@@ -72,6 +72,13 @@ Add-DnsServerResourceRecordA -Name "app" -ZoneName "first" -AllowUpdateAny -IPv4
 powershell
 Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled false
 </pre>
+<pre>
+Add-Computer
+    Администратор
+    P@ssw0rd
+        Oaklet.org
+Restart-Computer
+</pre>
 
 <ul>
     <li><strong>SRV (name, addressing)</strong></li>
@@ -82,6 +89,14 @@ su -
 hostnamectl set-hostname SRV.Oaklet.org
 reboot
 </pre>
+<pre>
+su -
+apt-get update
+apt-get install -y task-auth-ad-sssd
+system-auth write ad Oaklet.org SRV Oaklet 'Администратор' 'P@ssw0rd'
+reboot
+</pre>
+
 <pre>
 ЦУС -> Сеть -> Ethernet-интерфейсы
 IP: 172.20.3.100/23
@@ -306,6 +321,48 @@ vi /etc/chronyd.conf
 systemctl restart chronyd
 </pre>
 
+<p><strong>FW</p></strong>
+<pre>
+configure
+set system ntp server 172.20.3.100
+commit
+save
+</pre>
+
+<ul>
+    <li><strong>Все клиенты региона Office должны быть включены в домен</strong></li>
+    <ul>
+        <li>С клиентов должен быть возможен вход под любой учётной записью домена;</li>
+        <li>На клиентах должны применятся настроенные групповые политики;</li>
+        <li>Необходимо обеспечить хранение перемещаемого профиля пользователя Morgushko;</li>
+    </ul>
+</ul>
+<p><strong>CLI-W</p></strong>
+<pre>
+Rename-Computer -NewName CLI-W
+Restart-Computer
+</pre>
+<pre>
+Add-Computer
+    Администратор
+    P@ssw0rd
+        Oaklet.org
+Restart-Computer
+</pre>
+
+<p><strong>CLI-L</p></strong>
+<pre>
+su -
+hostnamectl set-hostname CLI-L.Oaklet.org
+reboot
+</pre>
+<pre>
+su - 
+apt-get update
+apt-get install -y task-auth-ad-sssd
+system-auth write ad Oaklet.org CLI-L Oaklet 'Администратор' 'P@ssw0rd'
+reboot
+</pre>
 
 <ul>
     <li><strong>Организуйте общий каталог для ВМ CLI-W и CLI-L на базе FS:</strong></li>
