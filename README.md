@@ -207,6 +207,8 @@ New-ADUser -Name "Polevikova" -UserPrincipalName "Polevikova@Oaklet.org" -Path "
 New-ADUser -Name "Morgushko" -UserPrincipalName "Morgushko@Oaklet.org" -Path "OU=Development,DC=Oaklet,DC=org" -AccountPassword(ConvertTo-SecureString P@ssw0rd -AsPlainText -Force) -Enabled $true
 New-ADUser -Name "Radjkovith" -UserPrincipalName "Radjkovith@Oaklet.org" -Path "OU=Development,DC=Oaklet,DC=org" -AccountPassword(ConvertTo-SecureString P@ssw0rd -AsPlainText -Force) -Enabled $true
 
+New-ADUser -Name "smb" -UserPrincipalName "smb@Oaklet.org" -Path "DC=Oaklet,DC=org" -AccountPassword(ConvertTo-SecureString P@ssw0rd -AsPlainText -Force) -Enabled $true
+
 Add-AdGroupMember -Identity ADM Director, Secretary
 Add-AdGroupMember -Identity Sales Alice, Bob
 Add-AdGroupMember -Identity Delivery Polevikova
@@ -363,10 +365,6 @@ system-auth write ad Oaklet.org CLI-L Oaklet 'Администратор' 'P@ssw
 reboot
 </pre>
 
-<pre>
-
-</pre>
-
 <ul>
     <li><strong>Организуйте общий каталог для ВМ CLI-W и CLI-L на базе FS:</strong></li>
     <ul>
@@ -412,4 +410,17 @@ assign letter=B
 select volume 3
 assign letter=D
 format fs=ntfs
+</pre>
+
+<pre>
+powershell
+Install-WindowsFeature -Name "FS-FileServer"
+Install-WindowsFeature -Name "FS-Resource-Manager"
+Restart-Computer
+</pre>
+<pre>
+New-Item -Path "D:\" -Name "opt" -ItemType "directory"
+New-Item -Path "D:\opt\" -Name "share" -ItemType "directory"
+
+
 </pre>
