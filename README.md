@@ -47,6 +47,24 @@ set service dhcp-relay relay-options relay-agents-packets discard
 </pre>
 
 <ul>
+    <li><strong>DC (DNS)</strong></li>
+</ul>
+<br>
+<pre>
+Add-DnsServerPrimaryZone -NetworkId "172.20.0.0/24" -ReplicationScope Domain
+Add-DnsServerPrimaryZone -NetworkId "172.20.2.0/24" -ReplicationScope Domain
+Add-DnsServerPrimaryZone -NetworkId "172.20.3.0/24" -ReplicationScope Domain
+Add-DnsServerResourceRecordPtr -ZoneName 0.20.172.in-addr.arpa -Name 100 -PtrDomainName dc.Oaklet.org
+Add-DnsServerResourceRecordA -Name "FS" -ZoneName "Oaklet.org" -AllowUpdateAny -IPv4Address "172.20.0.200" -CreatePtr
+Add-DnsServerResourceRecordA -Name "SRV" -ZoneName "Oaklet.org" -AllowUpdateAny -IPv4Address "172.20.3.100" -CreatePtr
+
+А так же для дальнейшей работы приложения и веб-сайта по доменным именам:
+Add-DnsServerResourceRecordCName -Name "www" -HostNameAlias "SRV.Oaklet.org" -ZoneName "Oaklet.org"
+Add-DnsServerPrimaryZone -Name first -ReplicationScope "Forest" –PassThru
+Add-DnsServerResourceRecordA -Name "app" -ZoneName "first" -AllowUpdateAny -IPv4Address "200.100.100.200"
+</pre>
+
+<ul>
     <li><strong>FS (Disabled Firewall)</strong></li>
 </ul>
 <br>
@@ -213,7 +231,7 @@ gpupdate /force
 <ul>
     <li><strong>Для обеспечения отказоустойчивости сервер контроллера домена должен выступать DHCP failover для подсети Clients:</strong></li>
     <ul>
-        <li>Он должен принимать управление в случае отказа основного DHCP сервера;;</li>
+        <li>Он должен принимать управление в случае отказа основного DHCP сервера;</li>
     </ul>
 </ul>
 
@@ -228,3 +246,59 @@ Add-DhcpServerv4ExclusionRange -ScopeID 172.20.2.0 -StartRange 172.20.2.1 -EndRa
 Add-DhcpServerv4ExclusionRange -ScopeID 172.20.2.0 -StartRange 172.20.3.100 -EndRange 172.20.3.100
 Set-DhcpServerv4Scope -ScopeID 172.20.2.0 -State Active
 </pre>
+
+<ul>
+    <li><strong>Организуйте общий каталог для ВМ CLI-W и CLI-L на базе FS:</strong></li>
+    <ul>
+        <li>Хранение файлов осуществляется на диске, реализованном по технологии RAID5;</li>
+        <li>Создать общую папку для пользователей;</li>
+        <li>Публикуемый каталог D:\opt\share;</li>
+        <li>Смонтируйте каталог на клиентах /mnt/adminshare и D:\adminshare соответственно;</li>
+        <li>Разрешите чтение и запись на всех клиентах:
+        <ul><li>Определить квоту максимальный размер в 20 мб для пользователей домена;</li></ul>
+        </li>
+        <li>Монтирование каталогов должно происходить автоматически;</li>        
+    </ul>
+</ul>
+
+<pre>
+diskpart
+
+select disk 1
+attrib disk clear readonly
+convert dynamic
+
+select disk 2
+attrib disk clear readonly
+convert dynamic
+
+select disk 3
+attrib disk clear readonly
+convert dynamic
+
+select disk 4
+attrib disk clear readonly
+convert dynamic
+
+select disk 5
+attrib disk clear readonly
+convert dynamic
+
+create volume raid disk=1,2,3,4,5
+
+select volume 0
+assign letter=B
+
+select volume 3
+assign letter=D
+format fs=ntfs
+</pre>
+
+<pre>
+На этом этапе введём FS в домен:
+powershell
+Add-Computer
+
+</pre>
+
+
