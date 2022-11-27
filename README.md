@@ -259,6 +259,55 @@ Set-DhcpServerv4Scope -ScopeID 172.20.2.0 -State Active
 ![Image alt](https://github.com/NewErr0r/Qualification_Exam/blob/main/dhcp-web.png)
 
 <ul>
+    <li><strong>Организуйте сервер времени на базе SRV</strong></li>
+    <ul>
+        <li>Данный сервер должен использоваться всеми ВМ внутри региона Office;</li>
+        <li>Сервер считает собственный источник времени верным;</li>
+    </ul>
+</ul>
+
+<pre>
+apt-get install -y chrony
+
+vi /etc/chronyd.conf
+    allow 172.20.0.0/24
+    allow 172.20.2.0/23
+    
+systemctl enable --now chronyd
+</pre>
+
+<p><strong>DC, FS</p></strong>
+<pre>
+Start-Service W32Time
+w32tm /config /manualpeerlist:172.20.3.100 /syncfromflags:manual /reliable:yes /update
+Restart-Service W32Time
+</pre>
+
+<p><strong>CLI-W</p></strong>
+<pre>
+New-NetFirewallRule -DisplayName "NTP" -Direction Inbound -LocalPort 123 -Protocol UDP -Action Allow
+</pre>
+<pre>
+Start-Service W32Time
+w32tm /config /manualpeerlist:172.20.3.100 /syncfromflags:manual /reliable:yes /update
+Restart-Service W32Time
+</pre>
+<pre>
+Set-Service -Name W32Time -StartupType Automatic
+</pre>
+
+<p><strong>CLI-L</p></strong>
+<pre>
+su -
+vi /etc/chronyd.conf
+    pool 172.20.3.100 iburst
+    allow 172.20.2.0/23
+    
+systemctl restart chronyd
+</pre>
+
+
+<ul>
     <li><strong>Организуйте общий каталог для ВМ CLI-W и CLI-L на базе FS:</strong></li>
     <ul>
         <li>Хранение файлов осуществляется на диске, реализованном по технологии RAID5;</li>
@@ -304,12 +353,3 @@ select volume 3
 assign letter=D
 format fs=ntfs
 </pre>
-
-<pre>
-На этом этапе введём FS в домен:
-powershell
-Add-Computer
-
-</pre>
-
-
