@@ -562,3 +562,63 @@ scp /tmp/index2.html root@10.116.0.30:/tmp
     yes
     P@ssw0rd
 </pre>
+
+<ul>
+    <li><strong>Реализуйте центр сертификации на базе SRV.</strong></li>
+    <ul>
+        <li>Клиенты СLI-L, CLI-W, CLI-R должны доверять сертификатам;</li>
+    </ul>
+</ul>
+
+<p><strong>SRV</strong></p>
+<p>Через веб-интерфейс "https://localhost:8080": (вариант для девочек) </p>
+
+![Image alt](https://github.com/NewErr0r/Qualification_Exam/blob/main/CA.png)
+
+<p>Вариант для нормальных пацанов:</p>
+<pre>
+su - 
+mkdir /var/ca
+cd /var/ca<br>
+openssl req -newkey rsa:4096 -keyform PEM -keyout ca.key -x509 -days 3650 -outform PEM -out ca.cer
+    P@ssw0rd
+    P@ssw0rd
+    Country Name: RU
+    Organization Name: Oaklet.org
+    Common Name: Oaklet.org CA
+</pre>
+<pre>
+vi /etc/openssh/sshd_config<br>
+    PermitRootLogin yes
+</pre>
+<pre>
+systemctl restart sshd.service
+</pre>
+
+<p><strong>FS</strong></p>
+<pre>
+scp root@SRV.Oaklet.org:/var/ca/ca.cer D:\opt\share
+    yes
+    P@ssw0rd
+</pre>
+
+<p><strong>CLI-W</strong></p>
+<pre>
+Import-Certificate -FilePath "D:\ca.cer" -CertStoreLocation cert:\CurrentUser\Root
+</pre>
+
+<p><strong>CLI-L</strong></p>
+<pre>
+su -
+cp /mnt/adminshare/ca.cer /etc/pki/ca-trust/source/anchors/ && update-ca-trust
+</pre>
+
+<p><strong>CLI-R</strong></p>
+<pre>
+ip route add 172.20.0.0/24 via 200.100.100.100
+ip route add 172.20.2.0/23 via 200.100.100.100<br>
+scp root@SRV.Oaklet.org:/var/ca/ca.cer /etc/pki/ca-trust/source/anchors/ && update-ca-trust
+    yes
+    P@ssw0rd
+</pre>
+
