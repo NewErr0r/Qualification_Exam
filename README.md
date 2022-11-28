@@ -457,3 +457,34 @@ Grant-SmbShareAccess -Name "share" -AccountName "Oaklet\smb" -AccessRight Full -
 New-FsrmQuotaTemplate -Name "20MB" -Size 20MB
 New-FsrmQuota -Path "D:\opt\share\" -Template "20MB"
 </pre>
+
+<p><strong>CLI-W</strong></p>
+<pre>
+powershell
+diskpart
+list volume 0 
+assign letter=B
+</pre>
+<pre>
+New-SmbMapping -LocalPath D: -RemotePath \\FS\share -Username smb -Password P@ssw0rd -Persistent $true<br>
+</pre>
+
+<p><strong>DC</strong></p>
+<pre>
+GPO:
+Конфигурация польхователя -> Настройка -> Конфигурация Windows -> Сопоставление дисков -> ПКМ -> Создать -> Сопоставленный диск ->:
+    Размещение: \\FS\share
+    Подпись: adminshare
+    Использовать: D
+-> Общие параметры:
+    Выполнять в контексте безопастности вошедшего пользователя
+    Нацеливание на уровень элемента -> Нацеливание:
+        Создать элемент -> Группа безопасности -> добавить группы<pre>
+gpupdate /force   
+</pre><br>
+
+<p><strong>CLI-W</strong></p>
+<pre>
+powershell
+gpupdate /force
+</pre>
