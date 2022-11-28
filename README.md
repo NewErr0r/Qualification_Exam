@@ -388,6 +388,14 @@ system-auth write ad Oaklet.org CLI-L Oaklet 'Администратор' 'P@ssw
 reboot
 </pre>
 
+<p><strong>DC</p></strong>
+<pre>
+New-Item -Path "С:\" -Name "roaming_users" -ItemType "directory"<br>
+New-SmbShare -Name "roaming_users" -Path "C:\roaming_users\" -FullAccess Oaklet\Администратор
+Grant-SmbShareAccess -Name "roaming_users" -AccountName "Oaklet\Morgushko" -AccessRight Full -Force
+Средства -> Пользователи и компьютеры Active Directory -> Development -> Morgushko (ПКМ) -> Свойства -> Профиль -> Пусть к профилю: \\DC\roaming_users\%username%
+</pre>
+
 <ul>
     <li><strong>Организуйте общий каталог для ВМ CLI-W и CLI-L на базе FS:</strong></li>
     <ul>
@@ -443,7 +451,9 @@ Restart-Computer
 </pre>
 <pre>
 New-Item -Path "D:\" -Name "opt" -ItemType "directory"
-New-Item -Path "D:\opt\" -Name "share" -ItemType "directory"
-
-
+New-Item -Path "D:\opt\" -Name "share" -ItemType "directory"<br>
+New-SmbShare -Name "share" -Path "D:\opt\share\" -FullAccess Oaklet\Администратор
+Grant-SmbShareAccess -Name "share" -AccountName "Oaklet\smb" -AccessRight Full -Force<br>
+New-FsrmQuotaTemplate -Name "20MB" -Size 20MB
+New-FsrmQuota -Path "D:\opt\share\" -Template "20MB"
 </pre>
