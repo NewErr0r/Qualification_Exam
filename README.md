@@ -472,7 +472,7 @@ New-SmbMapping -LocalPath D: -RemotePath \\FS\share -Username smb -Password P@ss
 <p><strong>DC</strong></p>
 <pre>
 GPO:
-Конфигурация польхователя -> Настройка -> Конфигурация Windows -> Сопоставление дисков -> ПКМ -> Создать -> Сопоставленный диск ->:
+Конфигурация пользователя -> Настройка -> Конфигурация Windows -> Сопоставление дисков -> ПКМ -> Создать -> Сопоставленный диск ->:
     Размещение: \\FS\share
     Подпись: adminshare
     Использовать: D
@@ -481,10 +481,12 @@ GPO:
     Нацеливание на уровень элемента -> Нацеливание:
         Создать элемент -> Группа безопасности -> добавить группы<pre>
 gpupdate /force   
-</pre><br>
+</pre></pre>
 
 <p><strong>CLI-W</strong></p>
 <pre>
 powershell
 gpupdate /force
 </pre>
+
+<p><strong>CLI-L</strong></p>
