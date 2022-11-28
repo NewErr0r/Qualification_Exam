@@ -291,7 +291,13 @@ subnet 172.20.2.0 netmask 255.255.254.0 {
         max-lease-time 43200;
 }
 </pre>
-
+<pre>
+vi /etc/sysconfig/dhcpd<br>
+    DHCPDARGS=enp0s3
+</pre>
+<pre>
+systemctl enable --now dhcpd
+</pre>
 
 <ul>
     <li><strong>Организуйте сервер времени на базе SRV</strong></li>
