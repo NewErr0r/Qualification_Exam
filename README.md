@@ -270,9 +270,28 @@ Set-DhcpServerv4Scope -ScopeID 172.20.2.0 -State Active
         <li>Клиенты CLI-L и CLI-W получают адрес и все необходимые сетевые параметры по DHCP, обеспечивая связность с сетью Интернет и подсетью Servers;</li>
     </ul>
 </ul>
-<p>Через веб-интерфейс "https://localhost:8080": </p>
+<p>Через веб-интерфейс "https://localhost:8080": (вариант для девочек) </p>
 
 ![Image alt](https://github.com/NewErr0r/Qualification_Exam/blob/main/dhcp-web.png)
+
+<p>Вариант для нормальных пацанов:</p>
+<pre>
+apt-get install -y dhcp-server
+</pre>
+<pre>
+vi /etc/dhcp/dhcpd.conf<br>
+ddns-update-style none;
+subnet 172.20.2.0 netmask 255.255.254.0 {
+        option routers                  172.20.2.1;
+        option subnet-mask              255.255.254.0;
+        option domain-name              "Oaklet.org";
+        option domain-name-servers      172.20.0.100, 77.88.8.8;<br>
+        range dynamic-bootp 172.20.3.101 172.20.3.254;
+        default-lease-time 21600;
+        max-lease-time 43200;
+}
+</pre>
+
 
 <ul>
     <li><strong>Организуйте сервер времени на базе SRV</strong></li>
