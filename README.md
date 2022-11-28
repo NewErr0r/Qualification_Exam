@@ -504,3 +504,61 @@ chmod 600 /etc/samba/sabmacreds
 chown root: /etc/samba/sabmacreds<br>
 mount -a
 </pre>
+
+
+<ul>
+    <li><strong>На файловом сервере FS также хранятся стартовые страницы корпоротивного портала:</strong></li>
+    <ul>
+        <li>для APP-L  находится  в C:\site\index1.html для APP-L;</li>
+        <li>для APP-R  находится в C:\site\index2.html для APP-R;</li>
+        <li>Необходимо их загрузить на серверы региона Application вместе с сопутствующими файлами.</li>     
+    </ul>
+</ul>
+
+<p><strong>APP-V</strong></p>
+<pre>
+vi /etc/openssh/sshd_config<br>
+    PermitRootLogin yes
+</pre>
+<pre>
+systemctl restard sshd.service
+</pre>
+
+<p><strong>APP-L</strong></p>
+<pre>
+vi /etc/openssh/sshd_config<br>
+    PermitRootLogin yes
+</pre>
+<pre>
+systemctl restard sshd.service
+</pre>
+
+<p><strong>APP-R</strong></p>
+<pre>
+vi /etc/openssh/sshd_config<br>
+    PermitRootLogin yes
+</pre>
+<pre>
+systemctl restard sshd.service
+</pre>
+
+<p><strong>FS</strong></p>
+<pre>
+Add-WindowsCapability -Online -Name OpenSSH.Client*<br>
+scp "C:\site\index1.html" "C:\site\index2.html" root@app.first:/tmp
+    yes
+    P@ssw0rd
+</pre
+
+<p><strong>APP-V</strong></p>
+<pre>
+scp /tmp/index1.html root@10.116.0.20:/tmp
+    yes
+    P@ssw0rd
+</pre>
+
+<pre>
+scp /tmp/index2.html root@10.116.0.30:/tmp
+    yes
+    P@ssw0rd
+</pre>
