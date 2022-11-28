@@ -56,9 +56,7 @@ Add-DnsServerPrimaryZone -NetworkId "172.20.2.0/24" -ReplicationScope Domain
 Add-DnsServerPrimaryZone -NetworkId "172.20.3.0/24" -ReplicationScope Domain
 Add-DnsServerResourceRecordPtr -ZoneName 0.20.172.in-addr.arpa -Name 100 -PtrDomainName dc.Oaklet.org
 Add-DnsServerResourceRecordA -Name "FS" -ZoneName "Oaklet.org" -AllowUpdateAny -IPv4Address "172.20.0.200" -CreatePtr
-Add-DnsServerResourceRecordA -Name "SRV" -ZoneName "Oaklet.org" -AllowUpdateAny -IPv4Address "172.20.3.100" -CreatePtr
-<br>
-А так же для дальнейшей работы приложения и веб-сайта по доменным именам:
+Add-DnsServerResourceRecordA -Name "SRV" -ZoneName "Oaklet.org" -AllowUpdateAny -IPv4Address "172.20.3.100" -CreatePtr<br>
 Add-DnsServerResourceRecordCName -Name "www" -HostNameAlias "SRV.Oaklet.org" -ZoneName "Oaklet.org"
 Add-DnsServerPrimaryZone -Name first -ReplicationScope "Forest" –PassThru
 Add-DnsServerResourceRecordA -Name "app" -ZoneName "first" -AllowUpdateAny -IPv4Address "200.100.100.200"
