@@ -490,3 +490,17 @@ gpupdate /force
 </pre>
 
 <p><strong>CLI-L</strong></p>
+<pre>
+su -
+apt-get install -y cifs-utils<br>
+mkdir /mnt/adminshare
+chmod 777 /mnt/adminshare<br>
+
+echo '//FS.Oaklet.org/share /mnt/adminshare cifs users,credentials=/etc/samba/sabmacreds,file_mode=0777,dir_mode=0777 0 0' >> /etc/fstab<br>
+vi /etc/samba/sabmacreds
+    username=smb
+    password=P@ssw0rd<br>
+chmod 600 /etc/samba/sabmacreds
+chown root: /etc/samba/sabmacreds<br>
+mount -a
+</pre>
