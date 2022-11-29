@@ -622,3 +622,45 @@ scp root@SRV.Oaklet.org:/var/ca/ca.cer /etc/pki/ca-trust/source/anchors/ && upda
     P@ssw0rd
 </pre>
 
+<ul>
+    <li><strong>Необходимо реализовать следующую инфраструктуру приложения на базе SRV</strong></li>
+    <ul>
+        <li>На нём должно быть активировано внутренне приложение, исполняющееся в контейнере и отвечающее на запросы из браузера клиентов (образ и все необходимые пакеты для работы приложения уже установленны);</li>
+        <li>Образ приложения расположен по пути: /home/admin/docker;</li>
+        <li>Доступ к приложению осуществляется по DNS-имени www. Oaklet.org;</li>     
+    </ul>
+</ul>
+
+<p><strong>SRV</strong></p>
+<pre>
+su -<br>
+systemctl enable --now docker.service<br>
+cd /home/admin/docker<br>
+docker build -t  app .
+docker run --name app -p 80:5000 -d app
+</pre
+
+![Image alt](https://github.com/NewErr0r/Qualification_Exam/blob/main/docker.png)
+
+<ul>
+    <li><strong>На клиенте под управлением Windows должен быть создан шифрованный Bitlocker раздел диска от пользователя уровня ADM.</strong></li>
+</ul>
+
+<p><strong>CLI-W</strong></p>
+<pre>
+powershell
+logoff
+    CLI-W\user
+    P@ssw0rd
+</pre>
+<pre>
+Управление дисками -> Диск 0 -> ПКМ -> Сжать том -> Размер сжимаемого пространства: 5120 -> Сжать
+ПКМ -> Создать простой том -> U:
+</pre>
+<pre>
+logoff
+    Director
+    P@ssw0rd<br>
+# Должен быть в группе Администраторы Домена
+Enable-BitLocker -MountPoint U: -PasswordProtector
+</pre>
