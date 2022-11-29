@@ -671,7 +671,7 @@ Enable-BitLocker -MountPoint U: -PasswordProtector
 <p><strong>CLI-W</strong></p>
 
 <pre>
-New-Item -Path . -Name "C:\Users\Public\Documents\file.txt" -ItemType "file" -Value "Секретное содержимое"
+New-Item -Path . -Name "C:\Users\Public\Documents\file.txt" -ItemType "file" -Value "Секретное содержимое"<br>
 cipher /e C:\Users\Public\Documents\file.txt
 </pre>
 
