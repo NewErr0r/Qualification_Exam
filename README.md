@@ -627,7 +627,7 @@ scp root@SRV.Oaklet.org:/var/ca/ca.cer /etc/pki/ca-trust/source/anchors/ && upda
     <ul>
         <li>На нём должно быть активировано внутренне приложение, исполняющееся в контейнере и отвечающее на запросы из браузера клиентов (образ и все необходимые пакеты для работы приложения уже установленны);</li>
         <li>Образ приложения расположен по пути: /home/admin/docker;</li>
-        <li>Доступ к приложению осуществляется по DNS-имени www. Oaklet.org;</li>     
+        <li>Доступ к приложению осуществляется по DNS-имени www.Oaklet.org;</li>     
     </ul>
 </ul>
 
@@ -664,3 +664,14 @@ logoff
 # Должен быть в группе Администраторы Домена
 Enable-BitLocker -MountPoint U: -PasswordProtector
 </pre>
+
+<ul>
+    <li><strong>В общих локальных документах должен быть создан текстовый файл с записью внутри: “Секретное содержимое”, зашифрованный EFS.</strong></li>
+</ul>
+<p><strong>CLI-W</strong></p>
+
+<pre>
+New-Item -Path . -Name "C:\Users\Public\Documents\file.txt" -ItemType "file" -Value "Секретное содержимое"
+cipher /e C:\Users\Public\Documents\file.txt
+</pre>
+
