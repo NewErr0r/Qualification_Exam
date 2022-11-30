@@ -701,7 +701,7 @@ vi /etc/wireguard/wg0.conf
   PrivateKey = srv-sec.key<br>  
   [Peer]
   PublicKey = cli-pub.key
-  AllowdIPs = 10.20.30.0/30, 172.20.0.0/24, 172.20.2.0/23<br>
+  AllowdIPs = 10.20.30.0/30<br>
 scp srv-pub.key cli-sec.key root@200.100.100.200:/tmp
 reboot
 </pre>
@@ -729,3 +729,8 @@ firewall-cmd --reload
 <pre>
 systemctl enable --now wg-quic@wg0
 </pre>
+
+<ul>
+    <li><strong>CLI-R должен получать удалённый доступ к каналам инфраструктуры, в частности к DNS серверу.</strong></li>
+</ul>
+<p><strong>Выполнен ранее</strong></p>
