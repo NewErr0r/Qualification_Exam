@@ -777,3 +777,73 @@ ln -s /etc/nginx/sites-available.d/default.conf /etc/nginx/sites-enabled.d/defau
 nginx -t 
 systemctl restart nginx
 </pre>
+
+<ul>
+    <li><strong>Корпоративный портал должен быть доступен по адресу app.first.</strong></li>
+        <ul>
+        <li>Клиентами должны быть CLI-L, CLI-W, CLI-R.</li>
+        <li>Доступ должен осуществляться по внешнему каналу, внутренний прямой доступ к вебслужбам на на хостах APP-L и APP-R запрещён.</li>
+        <li>Доступ к порталу должен осуществляться по защищённому каналу. Незащищённые HTTP-соединения автоматически переводятся на защищённый канал. Перевод осуществляется с сохранением параметров запроса.</li>
+    </ul>
+    <li><strong>В любом из сценариев высокой доступности простой не должен составлять более 20 секунд. </strong></li>
+    <li>Портал должен быть доступен при отказе одного из APP-L(R) хостов.</strong></li>
+</ul>
+<p><strong>APP-V</strong></p>
+
+<pre>
+mkdir cert
+cd cert<br>
+openssl genrsa -out app.key 4096
+openssl req -new -key app.key -out app.req -sha256
+    Country Name: RU
+    Organization Name: Oaklet.org
+    Common Name: app.first
+</pre>
+<pre>
+scp app.req root@172.20.3.100:/var/ca
+</pre>
+
+<p><strong>SRV</strong></p>
+<pre>
+su -
+cd /var/ca
+</pre>
+<pre>
+openssl x509 -req -in app.req -CA ca.cer -CAkey ca.key -set_serial 100 -extentions app -days 1460 -outform PEM -out app.cer -sha256
+    P@ssw0rd
+</pre>
+
+<p><strong>APP-V</strong></p>
+<pre>
+scp root@172.20.3.100:/var/ca/app.cer ./
+</pre>
+<pre>
+mkdir -p /etc/pki/nginx/private<br>
+cp app.cer /etc/pki/nginx/
+cp app.key /etc/pki/nginx/private
+</pre>
+<pre>
+apt-get install -y nginx
+systemctl enable --now nginx<br>
+vi /etc/nginx/sites-available.d/proxy.conf
+</pre>
+
+![Image alt](https://github.com/NewErr0r/Qualification_Exam/blob/main/proxy_conf.png)
+
+<pre>
+/etc/nginx/sites-available.d/proxy.conf /etc/nginx/sites-enabled.d/proxy.conf<br>
+nginx -t
+systemctl restart nginx 
+</pre>
+<pre>
+firewall-cmd --permanent --add-service={http,https}
+firewall-cmd --reload
+</pre>
+
+<p><strong>CLI-W</strong></p>
+
+![Image alt](https://github.com/NewErr0r/Qualification_Exam/blob/main/index1_html.png)
+
+<p><strong>CLI-L</strong></p>
+
+![Image alt](https://github.com/NewErr0r/Qualification_Exam/blob/main/index2_html.png)
