@@ -675,6 +675,7 @@ New-Item -Path -Name "C:\Users\Public\Documents\file.txt" -ItemType "file" -Valu
 cipher /e C:\Users\Public\Documents\file.txt
 </pre>
 
+<h1>Сетевая связность:</h1>
 <ul>
     <li><strong>Реализуйте связность конпонентов инфраструктуры с применением технологии VPN.</strong></li>
         <ul>
@@ -734,3 +735,45 @@ systemctl enable --now wg-quic@wg0
     <li><strong>CLI-R должен получать удалённый доступ к каналам инфраструктуры, в частности к DNS серверу.</strong></li>
 </ul>
 <p><strong>Выполнен ранее</strong></p>
+
+<h1>Работа приложения:</h1>
+<ul>
+    <li><strong>В регионе APP должен хостится корпоративный портал. Он развёртывается на APP-L и APP-R. </strong></li>
+</ul>
+<p><strong>APP-L</strong></p>
+<pre>
+apt-get update
+apt-get install -y nginx<br>
+systemctl enable --now nginx<br>
+mkdir -p /var/www/html
+cp /opt/index1.html /var/www/html<br>
+mv /var/www/html/index1.html /var/www/html/index.html
+</pre>
+<pre>
+vi /etc/nginx/sites-available.d/default.conf
+    listen 80 default_server;<br>
+ln -s /etc/nginx/sites-available.d/default.conf /etc/nginx/sites-enabled.d/default.conf
+</pre>
+<pre>
+nginx -t 
+systemctl restart nginx
+</pre>
+
+<p><strong>APP-R</strong></p>
+<pre>
+apt-get update
+apt-get install -y nginx<br>
+systemctl enable --now nginx<br>
+mkdir -p /var/www/html
+cp /opt/index2.html /var/www/html<br>
+mv /var/www/html/index2.html /var/www/html/index.html
+</pre>
+<pre>
+vi /etc/nginx/sites-available.d/default.conf
+    listen 80 default_server;<br>
+ln -s /etc/nginx/sites-available.d/default.conf /etc/nginx/sites-enabled.d/default.conf
+</pre>
+<pre>
+nginx -t 
+systemctl restart nginx
+</pre>
