@@ -831,7 +831,7 @@ vi /etc/nginx/sites-available.d/proxy.conf
 ![Image alt](https://github.com/NewErr0r/Qualification_Exam/blob/main/proxy_conf.png)
 
 <pre>
-/etc/nginx/sites-available.d/proxy.conf /etc/nginx/sites-enabled.d/proxy.conf<br>
+ln -s /etc/nginx/sites-available.d/proxy.conf /etc/nginx/sites-enabled.d/proxy.conf<br>
 nginx -t
 systemctl restart nginx 
 </pre>
