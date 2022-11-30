@@ -675,3 +675,57 @@ New-Item -Path -Name "C:\Users\Public\Documents\file.txt" -ItemType "file" -Valu
 cipher /e C:\Users\Public\Documents\file.txt
 </pre>
 
+<ul>
+    <li><strong>Реализуйте связность конпонентов инфраструктуры с применением технологии VPN.</strong></li>
+        <ul>
+        <li>Соединяются регионы Office и Application;</li>
+        <li>Соединение должно быть защищено;</li>
+        <li>При повторном запуске – восстанавливаться;</li>
+        <li>Все хосты регионов должны взаимодействовать друг с другом;</li>
+    </ul>
+</ul>
+<p><strong>FW</strong></p>
+<pre>
+sudo su
+mkdir /etc/wireguard/keys
+cd /etc/wireguard/keys
+</pre>
+<pre>
+wg genkey | tee srv-sec.key | wg pubkey > srv-pub.key
+wg genkey | tee cli-sec.key | wg pubkey > cli-pub.key<br>
+cat srv-sec.key cli-pub.key >> /etc/wireguard/wg0.conf<br>
+vi /etc/wireguard/wg0.conf
+  [Interface]
+  Address = 10.20.30.1/30
+  ListenPort = 12345
+  PrivateKey = srv-sec.key<br>  
+  [Peer]
+  PublicKey = cli-pub.key
+  AllowdIPs = 10.20.30.0/30, 172.20.0.0/24, 172.20.2.0/23<br>
+scp srv-pub.key cli-sec.key root@200.100.100.200:/tmp
+reboot
+</pre>
+
+<p><strong>APP-V</strong></p>
+<pre>
+cd /opt<br>
+mkdir /etc/wireguard<br>
+cat cli-sec.key srv-pub.key >> /etc/wireguard/wg0.conf<br>
+vi /etc/wireguard/wg0.conf
+  [Interface]
+  Address = 10.20.30.2/30
+  PrivateKey = cli-sec.key<br>
+  [Peer]
+  PublicKey = srv-pub.key
+  Endpoint = 200.100.100.100:12345
+  AllowdIPs = 10.20.30.0/30, 172.20.0.0/24, 172.20.2.0/23
+  PersistentKeepalive = 10
+</pre>
+<pre>
+firewall-cmd --permanent --add-port=12345/{tcp,udp}
+firewall-cmd --permanent --add-interface=wg0 --zone=public
+firewall-cmd --reload
+</pre>
+<pre>
+systemctl enable --now wg-quic@wg0
+</pre>
