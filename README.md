@@ -338,7 +338,7 @@ Set-Service -Name W32Time -StartupType Automatic
 <p><strong>CLI-L</p></strong>
 <pre>
 su -
-vi /etc/chronyd.conf
+vi /etc/chrony.conf
     pool 172.20.3.100 iburst
     allow 172.20.2.0/23
     
