@@ -308,7 +308,7 @@ systemctl enable --now dhcpd
 <pre>
 apt-get install -y chrony
 
-vi /etc/chronyd.conf
+vi /etc/chrony.conf
     allow 172.20.0.0/24
     allow 172.20.2.0/23
     
