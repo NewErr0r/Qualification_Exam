@@ -29,7 +29,7 @@ set system hostname FW
 set system name-server 77.88.8.8
 set protocols static route 0.0.0.0/0 next-hop 200.100.100.254 distance 1
 
-set interface ethernet eth0 address 200.100.100.200/24
+set interface ethernet eth0 address 200.100.100.100/24
 set interface ethernet eth1 address 172.20.0.1/24
 set interface ethernet eth2 address 172.20.2.1/23
 
