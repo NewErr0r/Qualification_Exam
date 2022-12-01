@@ -702,7 +702,7 @@ vi /etc/wireguard/wg0.conf
   PrivateKey = srv-sec.key<br>  
   [Peer]
   PublicKey = cli-pub.key
-  AllowdIPs = 10.20.30.0/30<br>
+  AllowedIPs = 10.20.30.0/30<br>
 scp srv-pub.key cli-sec.key root@200.100.100.200:/tmp
 reboot
 </pre>
@@ -719,7 +719,7 @@ vi /etc/wireguard/wg0.conf
   [Peer]
   PublicKey = srv-pub.key
   Endpoint = 200.100.100.100:12345
-  AllowdIPs = 10.20.30.0/30, 172.20.0.0/24, 172.20.2.0/23
+  AllowedIPs = 10.20.30.0/30, 172.20.0.0/24, 172.20.2.0/23
   PersistentKeepalive = 10
 </pre>
 <pre>
