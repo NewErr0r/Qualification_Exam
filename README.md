@@ -255,7 +255,7 @@ Set-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\ServerManager\Roles\12 -Name Con
 Restart-Service -Name DHCPServer -Force
 <br>
 Add-DhcpServerv4Scope -Name “Clients-failover” -StartRange 172.20.2.1 -EndRange 172.20.3.254 -SubnetMask 255.255.254.0 -State InActive
-Set-DhcpServerv4OptionValue -ScopeID 172.20.2.0 -DnsDomain Oaklet.org -DnsServer 172.20.0.200,77.88.8.8 -Router 172.20.2.1
+Set-DhcpServerv4OptionValue -ScopeID 172.20.2.0 -DnsDomain Oaklet.org -DnsServer 172.20.0.100,77.88.8.8 -Router 172.20.2.1
 Add-DhcpServerv4ExclusionRange -ScopeID 172.20.2.0 -StartRange 172.20.2.1 -EndRange 172.20.2.1
 Add-DhcpServerv4ExclusionRange -ScopeID 172.20.2.0 -StartRange 172.20.3.100 -EndRange 172.20.3.100
 Set-DhcpServerv4Scope -ScopeID 172.20.2.0 -State Active
