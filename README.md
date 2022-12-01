@@ -710,7 +710,7 @@ reboot
 
 <p><strong>APP-V</strong></p>
 <pre>
-apt-get install -y wireguard-tools
+apt-get install -y wireguard-tools wireguard-tools-wg-quick
 </pre>
 <pre>
 cd /tmp<br>
