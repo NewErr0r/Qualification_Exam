@@ -703,13 +703,17 @@ vi /etc/wireguard/wg0.conf
   [Peer]
   PublicKey = cli-pub.key
   AllowedIPs = 10.20.30.0/30<br>
+systemctl enable --now wg-quic@wg0<br>
 scp srv-pub.key cli-sec.key root@200.100.100.200:/tmp
 reboot
 </pre>
 
 <p><strong>APP-V</strong></p>
 <pre>
-cd /opt<br>
+apt-get install -y wireguard-tools
+</pre>
+<pre>
+cd /tmp<br>
 mkdir /etc/wireguard<br>
 cat cli-sec.key srv-pub.key >> /etc/wireguard/wg0.conf<br>
 vi /etc/wireguard/wg0.conf
