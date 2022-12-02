@@ -392,7 +392,6 @@ reboot
 <pre>
 New-Item -Path "С:\" -Name "roaming_users" -ItemType "directory"<br>
 New-SmbShare -Name "roaming_users" -Path "C:\roaming_users\" -FullAccess Oaklet\Администратор
-Grant-SmbShareAccess -Name "roaming_users" -AccountName "Oaklet\Morgushko" -AccessRight Full -Force
 Средства -> Пользователи и компьютеры Active Directory -> Development -> Morgushko (ПКМ) -> Свойства -> Профиль -> Пусть к профилю: \\DC\roaming_users\%username%
 </pre>
 
