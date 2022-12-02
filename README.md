@@ -25,7 +25,7 @@
 </ul>
 <br>
 <pre>
-set system hostname FW
+set system host-name FW
 set system name-server 77.88.8.8
 set protocols static route 0.0.0.0/0 next-hop 200.100.100.254 distance 1
 
