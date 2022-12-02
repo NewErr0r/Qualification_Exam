@@ -702,7 +702,7 @@ vi /etc/wireguard/wg0.conf
   [Peer]
   PublicKey = cli-pub.key
   AllowedIPs = 10.20.30.0/30<br>
-systemctl enable --now wg-quic@wg0<br>
+systemctl enable --now wg-quick@wg0<br>
 scp srv-pub.key cli-sec.key root@200.100.100.200:/tmp
 reboot
 </pre>
@@ -731,7 +731,7 @@ firewall-cmd --permanent --add-interface=wg0 --zone=public
 firewall-cmd --reload
 </pre>
 <pre>
-systemctl enable --now wg-quic@wg0
+systemctl enable --now wg-quick@wg0
 </pre>
 
 <ul>
