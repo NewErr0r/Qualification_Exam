@@ -33,8 +33,8 @@ set interface ethernet eth0 address 200.100.100.100/24
 set interface ethernet eth1 address 172.20.0.1/24
 set interface ethernet eth2 address 172.20.2.1/23
 
-set nat source rule 1 outhboun-interface eth0
-set nat source rule 2 outhboun-interface eth0
+set nat source rule 1 outboun-interface eth0
+set nat source rule 2 outboun-interface eth0
 set nat source rule 1 source address 172.20.0.0/24
 set nat source rule 2 source address 172.20.2.0/23
 set nat source rule 1 translation address masquerade
