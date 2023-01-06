@@ -26,10 +26,7 @@
 <br>
 <pre>
 set system host-name FW
-set system name-server 77.88.8.8
-set protocols static route 0.0.0.0/0 next-hop 200.100.100.254 distance 1
 
-set interface ethernet eth0 address 200.100.100.100/24
 set interface ethernet eth1 address 172.20.0.1/24
 set interface ethernet eth2 address 172.20.2.1/23
 
@@ -110,10 +107,8 @@ reboot
 hostnamectl set-hostname APP-V
 
 mkdir /etc/net/ifaces/enp0s8
-cp /etc/net/ifaces/enp0s3/* /etc/net/ifaces/enp0s8
+cp /etc/net/ifaces/enp0s3/options /etc/net/ifaces/enp0s8
 
-echo 200.100.100.200/24 >> /etc/net/ifaces/enp0s3/ipv4address
-echo default via 200.100.100.254 > /etc/net/ifaces/enp0s3/ipv4route
 echo 10.116.0.10/14 >> /etc/net/ifaces/enp0s8/ipv4address
 systemctl restart network
 ip link set up enp0s3
